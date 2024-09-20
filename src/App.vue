@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <div>
-      <RouterLink :to="{ name: 'notes' }">Notes</RouterLink> |
-      <RouterLink :to="{ name: 'stats' }">Stats</RouterLink>
-    </div>
+  <Navbar />
+  <div class="container px-2">
     <RouterView />
   </div>
 </template>
+
+<style>
+@import "bulma/css/bulma.min.css";
+</style>
+
+<script setup>
+import Navbar from "./components/Layout/Navbar.vue";
+</script>
