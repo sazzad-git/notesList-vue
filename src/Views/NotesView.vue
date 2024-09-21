@@ -25,21 +25,17 @@
     </div>
   </div>
 
-  <div class="card mb-4" v-for="note in notes" :key="note.id">
-    <div class="card-content">
-      <div class="content">
-        {{ note.content }}
-      </div>
-    </div>
-    <footer class="card-footer">
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
-    </footer>
-  </div>
+  <SingleNote
+    v-for="note in notes"
+    :key="note.id"
+    :note="note"
+    @onDeleteClicked="deleteNote"
+  />
 </template>
 
 <script setup>
 import { ref } from "vue";
+import SingleNote from "../components/Notes/SingleNote.vue";
 const notes = ref([
   { id: "id1", content: "First Note" },
   { id: "id2", content: "Second Note" },
@@ -59,5 +55,9 @@ const addNote = () => {
   notes.value.unshift(note);
   newNote.value = "";
   newNoteRef.value.focus();
+};
+
+const deleteNote = (idToDelete) => {
+  notes.value = notes.value.filter((note) => note.id !== idToDelete);
 };
 </script>
