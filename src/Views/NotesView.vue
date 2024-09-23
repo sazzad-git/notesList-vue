@@ -35,7 +35,7 @@ const addNote = () => {
   notesStore.addNote(newNote.value);
 
   newNote.value = "";
-  addEditNoteRef.value?.focusTextarea();
+  addEditNoteRef.value.focusTextarea();
 };
 
 // const deleteNote = (idToDelete) => {
