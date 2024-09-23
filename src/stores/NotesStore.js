@@ -11,13 +11,18 @@ export const useNotesStore = defineStore("notesStore", () => {
     const currentDate = new Date().getTime().toString();
     const note = {
       id: currentDate,
-      content: newNote.value,
+      content: noteContent,
     };
     notes.value.unshift(note);
+  };
+
+  const deleteNote = (noteId) => {
+    notes.value = notes.value.filter((note) => note.id !== noteId);
   };
 
   return {
     notes,
     addNote,
+    deleteNote,
   };
 });

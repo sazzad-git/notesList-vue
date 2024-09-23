@@ -1,39 +1,22 @@
 <template>
-  <div class="has-background-danger-dark my-4 p-4">
-    <div class="field">
-      <label class="label">Note</label>
-      <div class="control">
-        <textarea
-          class="textarea"
-          placeholder="Add New Note"
-          v-model="newNote"
-          ref="newNoteRef"
-        ></textarea>
-      </div>
-    </div>
+  <AddEditNote v-model="newNote" ref="addEditNoteRef">
+    <template #button>
+      <button
+        :disabled="!newNote"
+        class="button is-link is-danger"
+        @click.prevent="addNote"
+      >
+        Add New Note
+      </button>
+    </template>
+  </AddEditNote>
 
-    <div class="field is-grouped is-grouped-right">
-      <div class="control">
-        <button
-          :disabled="!newNote"
-          class="button is-link is-danger"
-          @click.prevent="addNote"
-        >
-          Add New Note
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <SingleNote
-    v-for="note in notes"
-    :key="note.id"
-    :note="note"
-    @onDeleteClicked="deleteNote"
-  />
+  <SingleNote v-for="note in notes" :key="note.id" :note="note" />
+  <!-- for emits @onDeleteClicked="deleteNote"  -->
 </template>
 
 <script setup>
+import AddEditNote from "@/components/Notes/AddEditNote.vue";
 import { useNotesStore } from "@/stores/NotesStore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
@@ -42,7 +25,7 @@ import SingleNote from "../components/Notes/SingleNote.vue";
 const notesStore = useNotesStore();
 
 // eta jante hobe
-const newNoteRef = ref(null);
+const addEditNoteRef = ref(null);
 
 const { notes } = storeToRefs(notesStore);
 
@@ -52,10 +35,10 @@ const addNote = () => {
   notesStore.addNote(newNote.value);
 
   newNote.value = "";
-  newNoteRef.value.focus();
+  addEditNoteRef.value?.focusTextarea();
 };
 
-const deleteNote = (idToDelete) => {
-  notes.value = notes.value.filter((note) => note.id !== idToDelete);
-};
+// const deleteNote = (idToDelete) => {
+//   notes.value = notes.value.filter((note) => note.id !== idToDelete);
+// };
 </script>
