@@ -13,6 +13,18 @@ export const useNotesStore = defineStore("notesStore", () => {
     };
   });
 
+  const totalNotesCount = computed(() => {
+    return notes.value.length;
+  });
+
+  const totalCharactersCount = computed(() => {
+    let count = 0;
+    for (let note of notes.value) {
+      count += note.content.length;
+    }
+    return count;
+  });
+
   const addNote = (noteContent) => {
     const currentDate = new Date().getTime().toString();
     const note = {
@@ -37,5 +49,7 @@ export const useNotesStore = defineStore("notesStore", () => {
     deleteNote,
     getNoteContentById,
     updateNote,
+    totalNotesCount,
+    totalCharactersCount,
   };
 });
