@@ -8,6 +8,7 @@
           :placeholder="placeholder"
           :value="modelValue"
           @input="$emit('update:modelValue', $event.target.value)"
+          maxlength="50"
           v-autofocus
           ref="textareaRef"
         ></textarea>
