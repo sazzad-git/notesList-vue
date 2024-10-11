@@ -17,6 +17,7 @@ import {
 
 export const useNotesStore = defineStore("notesStore", () => {
   const notes = ref([]);
+  const notesLoaded = ref(false);
 
   const notesCollectionRef = collection(db, "notes");
   const notesCollectionQuery = query(
@@ -42,14 +43,18 @@ export const useNotesStore = defineStore("notesStore", () => {
 
     onSnapshot(notesCollectionQuery, (querySnapshot) => {
       let notesData = [];
+      notesLoaded.value = false;
       querySnapshot.forEach((doc) => {
         let note = {
           id: doc.id,
           content: doc.data().content,
+          date: doc.data().date,
         };
         notesData.push(note);
       });
+
       notes.value = notesData;
+      notesLoaded.value = true;
     });
   };
 
@@ -103,5 +108,6 @@ export const useNotesStore = defineStore("notesStore", () => {
     totalNotesCount,
     totalCharactersCount,
     getNotes,
+    notesLoaded,
   };
 });

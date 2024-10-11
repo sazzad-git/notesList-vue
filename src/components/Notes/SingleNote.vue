@@ -3,8 +3,9 @@
     <div class="card-content">
       <div class="content">
         {{ note.content }}
-        <div class="has-text-right has- text-grey-light">
-          <small>{{ characterLength }} </small>
+        <div class="columns has-text-white">
+          <small class="column mt-3">{{ formattedDate }}</small>
+          <small class="column has-text-right">{{ characterLength }} </small>
         </div>
       </div>
     </div>
@@ -30,6 +31,7 @@
 import { useNotesStore } from "@/stores/NotesStore";
 import { computed, reactive } from "vue";
 import DeleteNoteModel from "./DeleteNoteModel.vue";
+import { useDateFormat } from "@vueuse/core";
 
 const props = defineProps({
   note: {
@@ -39,6 +41,10 @@ const props = defineProps({
 });
 
 const noteStore = useNotesStore();
+
+const date = new Date(+props.note.date);
+const formattedDate = useDateFormat(date, "DD-MM-YYYY @ HH:mm");
+console.log(formattedDate.value);
 
 // const emit = defineEmits(["onDeleteClicked"]);
 const characterLength = computed(() => {
