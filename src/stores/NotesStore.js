@@ -2,11 +2,15 @@ import { db } from "@/js/firebase";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  limit,
   onSnapshot,
+  orderBy,
+  query,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -15,6 +19,10 @@ export const useNotesStore = defineStore("notesStore", () => {
   const notes = ref([]);
 
   const notesCollectionRef = collection(db, "notes");
+  const notesCollectionQuery = query(
+    notesCollectionRef,
+    orderBy("date", "desc")
+  );
 
   const getNoteContentById = computed(() => {
     return (id) => {
@@ -32,7 +40,7 @@ export const useNotesStore = defineStore("notesStore", () => {
     //   notes.value.push(note);
     // });
 
-    onSnapshot(notesCollectionRef, (querySnapshot) => {
+    onSnapshot(notesCollectionQuery, (querySnapshot) => {
       let notesData = [];
       querySnapshot.forEach((doc) => {
         let note = {
@@ -64,9 +72,12 @@ export const useNotesStore = defineStore("notesStore", () => {
     //   content: noteContent,
     // };
 
+    // console.log("date:", currentDate);
+
     // notes.value.unshift(note);
-    await setDoc(doc(notesCollectionRef, currentDate), {
+    await addDoc(notesCollectionRef, {
       content: noteContent,
+      date: currentDate,
     });
   };
 
