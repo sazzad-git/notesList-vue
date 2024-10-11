@@ -11,7 +11,7 @@
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button is-danger">Delete</button>
+          <button class="button is-danger" @click="deleteNote">Delete</button>
           <button class="button" @click="closeModal">Cancel</button>
         </div>
       </footer>
@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+import { useNotesStore } from "@/stores/NotesStore";
 import { onClickOutside } from "@vueuse/core";
 import { onMounted, onUnmounted, ref } from "vue";
 
@@ -28,13 +29,24 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  noteId: {
+    type: String,
+    required: true,
+  },
 });
+
+const noteStore = useNotesStore();
 
 const handleClose = (event) => {
   console.log("key close event");
   if (event.key === "Escape") {
     closeModal();
   }
+};
+
+const deleteNote = () => {
+  // console.log(props.noteId);
+  noteStore.deleteNote(props.noteId);
 };
 
 const closeModal = () => {
