@@ -24,7 +24,7 @@
 
   <div
     class="has-text-centered py-6 is-size-4 has-text-grey-light is-family-monospace"
-    v-if="!notes.length"
+    v-if="!notes.length && notesStore.notesLoaded"
   >
     No Notes added here yet!!!
   </div>

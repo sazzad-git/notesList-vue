@@ -1,3 +1,4 @@
+import AuthView from "@/Views/AuthView.vue";
 import EditNotesView from "@/Views/EditNotesView.vue";
 import NotesView from "@/Views/NotesView.vue";
 import StatsView from "@/Views/StatsView.vue";
@@ -19,6 +20,11 @@ const routes = [
     path: "/stats",
     component: StatsView,
     name: "stats",
+  },
+  {
+    path: "/auth",
+    component: AuthView,
+    name: "auth",
   },
 ];
 
