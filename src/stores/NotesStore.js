@@ -1,10 +1,18 @@
 import { db } from "@/js/firebase";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 
 export const useNotesStore = defineStore("notesStore", () => {
   const notes = ref([]);
+
+  const notesCollectionRef = collection(db, "notes");
 
   const getNoteContentById = computed(() => {
     return (id) => {
@@ -13,13 +21,25 @@ export const useNotesStore = defineStore("notesStore", () => {
   });
 
   const getNotes = async () => {
-    const querySnapshot = await getDocs(collection(db, "notes"));
-    querySnapshot.forEach((doc) => {
-      let note = {
-        id: doc.id,
-        content: doc.data().content,
-      };
-      notes.value.push(note);
+    // const querySnapshot = await getDocs(collection(db, "notes"));
+    // querySnapshot.forEach((doc) => {
+    //   let note = {
+    //     id: doc.id,
+    //     content: doc.data().content,
+    //   };
+    //   notes.value.push(note);
+    // });
+
+    onSnapshot(notesCollectionRef, (querySnapshot) => {
+      let notesData = [];
+      querySnapshot.forEach((doc) => {
+        let note = {
+          id: doc.id,
+          content: doc.data().content,
+        };
+        notesData.push(note);
+      });
+      notes.value = notesData;
     });
   };
 
@@ -35,13 +55,17 @@ export const useNotesStore = defineStore("notesStore", () => {
     return count;
   });
 
-  const addNote = (noteContent) => {
+  const addNote = async (noteContent) => {
     const currentDate = new Date().getTime().toString();
-    const note = {
-      id: currentDate,
+    // const note = {
+    //   id: currentDate,
+    //   content: noteContent,
+    // };
+
+    // notes.value.unshift(note);
+    await setDoc(doc(notesCollectionRef, currentDate), {
       content: noteContent,
-    };
-    notes.value.unshift(note);
+    });
   };
 
   const deleteNote = (noteId) => {
