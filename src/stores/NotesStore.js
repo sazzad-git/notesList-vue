@@ -3,10 +3,12 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 export const useNotesStore = defineStore("notesStore", () => {
@@ -68,13 +70,17 @@ export const useNotesStore = defineStore("notesStore", () => {
     });
   };
 
-  const deleteNote = (noteId) => {
-    notes.value = notes.value.filter((note) => note.id !== noteId);
+  const deleteNote = async (noteId) => {
+    // notes.value = notes.value.filter((note) => note.id !== noteId);
+    await deleteDoc(doc(notesCollectionRef, noteId));
   };
 
-  const updateNote = (id, content) => {
-    const index = notes.value.findIndex((note) => note.id === id);
-    notes.value[index].content = content;
+  const updateNote = async (id, content) => {
+    // const index = notes.value.findIndex((note) => note.id === id);
+    // notes.value[index].content = content;
+    await updateDoc(doc(notesCollectionRef, id), {
+      content,
+    });
   };
 
   return {
