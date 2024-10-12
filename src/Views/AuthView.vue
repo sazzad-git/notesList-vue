@@ -16,15 +16,20 @@
     </div>
 
     <!-- card form -->
-    <form>
+    <form @submit.prevent="onSubmit">
       <div class="card auth-form">
         <div class="card-content">
-          <div class="title has-text-centered">Login</div>
+          <div class="title has-text-centered">{{ formTitle }}</div>
           <div class="content">
             <div class="field">
               <label class="label">Email</label>
               <div class="control">
-                <input class="input" type="email" placeholder="Email Address" />
+                <input
+                  class="input"
+                  type="email"
+                  placeholder="Email Address"
+                  v-model="credentials.email"
+                />
               </div>
             </div>
             <div class="field">
@@ -34,12 +39,13 @@
                   class="input"
                   type="password"
                   placeholder="Enter Password"
+                  v-model="credentials.password"
                 />
               </div>
             </div>
             <div class="field is-grouped is-grouped-right">
               <p class="control">
-                <button class="button is-primary">Submit</button>
+                <button class="button is-primary">{{ formTitle }}</button>
               </p>
             </div>
           </div>
@@ -50,8 +56,30 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, reactive, ref } from "vue";
 const register = ref(false);
+const credentials = reactive({
+  email: "",
+  password: "",
+});
+
+const formTitle = computed(() => {
+  return register.value ? "Register" : "Login";
+});
+
+const onSubmit = () => {
+  if (!credentials.email || !credentials.password) {
+    alert("Please enter email and password");
+    return;
+  }
+  if (register.value) {
+    console.log(credentials);
+    console.log("register click");
+  } else {
+    console.log(credentials);
+    console.log("login click");
+  }
+};
 </script>
 
 <style scoped>

@@ -30,6 +30,9 @@
         :class="{ 'is-active': showNavBarMenu }"
         class="navbar-menu"
       >
+        <div class="navbar-start">
+          <button class="button is-info is-small mt-3 ml-3">Logout</button>
+        </div>
         <div class="navbar-end">
           <RouterLink
             :to="{ name: 'notes' }"
