@@ -44,7 +44,7 @@ const noteStore = useNotesStore();
 
 const date = new Date(+props.note.date);
 const formattedDate = useDateFormat(date, "DD-MM-YYYY @ HH:mm");
-console.log(formattedDate.value);
+// console.log(formattedDate.value);
 
 // const emit = defineEmits(["onDeleteClicked"]);
 const characterLength = computed(() => {

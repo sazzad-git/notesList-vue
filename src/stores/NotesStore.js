@@ -14,16 +14,16 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { useAuthStore } from "./AuthStore";
 
 export const useNotesStore = defineStore("notesStore", () => {
   const notes = ref([]);
   const notesLoaded = ref(false);
 
-  const notesCollectionRef = collection(db, "notes");
-  const notesCollectionQuery = query(
-    notesCollectionRef,
-    orderBy("date", "desc")
-  );
+  const authStore = useAuthStore();
+
+  let notesCollectionRef;
+  let notesCollectionQuery;
 
   const getNoteContentById = computed(() => {
     return (id) => {
@@ -32,6 +32,10 @@ export const useNotesStore = defineStore("notesStore", () => {
   });
 
   const getNotes = async () => {
+    console.log(authStore.user.uid);
+    notesCollectionRef = collection(db, "users", authStore.user.uid, "notes");
+    notesCollectionQuery = query(notesCollectionRef, orderBy("date", "desc"));
+
     // const querySnapshot = await getDocs(collection(db, "notes"));
     // querySnapshot.forEach((doc) => {
     //   let note = {

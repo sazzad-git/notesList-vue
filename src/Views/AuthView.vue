@@ -80,8 +80,7 @@ const onSubmit = () => {
   if (register.value) {
     authStore.registerUser(credentials);
   } else {
-    console.log(credentials);
-    console.log("login click");
+    authStore.loginUser(credentials);
   }
 };
 </script>

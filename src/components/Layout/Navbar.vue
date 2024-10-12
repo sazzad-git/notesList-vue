@@ -30,8 +30,13 @@
         :class="{ 'is-active': showNavBarMenu }"
         class="navbar-menu"
       >
-        <div class="navbar-start">
-          <button class="button is-info is-small mt-3 ml-3">Logout</button>
+        <div class="navbar-start" v-if="authStore.user.uid">
+          <button
+            class="button is-info is-small mt-3 ml-3"
+            @click.prevent="onLogout"
+          >
+            Logout {{ authStore.user.email }}
+          </button>
         </div>
         <div class="navbar-end">
           <RouterLink
@@ -56,9 +61,15 @@
 </template>
 
 <script setup>
+import { useAuthStore } from "@/stores/AuthStore";
 import { ref } from "vue";
 
 const showNavBarMenu = ref(false);
+const authStore = useAuthStore();
+
+const onLogout = () => {
+  authStore.logoutUser();
+};
 </script>
 
 <style scoped>

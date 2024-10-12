@@ -34,7 +34,7 @@
 import AddEditNote from "@/components/Notes/AddEditNote.vue";
 import { useNotesStore } from "@/stores/NotesStore";
 import { storeToRefs } from "pinia";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import SingleNote from "../components/Notes/SingleNote.vue";
 import { useCharactersLimit } from "@/composables/useCharactersLimit";
 
@@ -44,6 +44,10 @@ const notesStore = useNotesStore();
 const addEditNoteRef = ref(null);
 
 const { notes } = storeToRefs(notesStore);
+
+// onMounted(() => {
+//   notesStore.getNotes();
+// });
 
 const newNote = ref("");
 
