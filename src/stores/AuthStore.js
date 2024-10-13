@@ -27,13 +27,12 @@ export const useAuthStore = defineStore("authStore", () => {
         router.push({ name: "notes" });
         noteStore.getNotes();
         // console.log("user is login uid:", uid);
-        // ...
       } else {
         // console.log("User is signed out");
+        // User is signed out
         user.value = {};
         router.replace({ name: "auth" });
-        // User is signed out
-        // ...
+        noteStore.clearNote();
       }
     });
   };
